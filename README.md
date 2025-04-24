@@ -1,5 +1,11 @@
 # 🗨️ Simple Python Chat Application
 
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Platform](https://img.shields.io/badge/Platform-Cross--Platform-brightgreen)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+
 This is a basic **TCP-based chat application** written in Python. It includes a client and server script, allowing multiple users to connect and exchange messages in real time via the command line.
 
 ---
