@@ -56,8 +56,8 @@ def handle_client(client_socket, address):
                 recipient, msg = message.split(":", 1)
                 with lock:
                     if recipient in active_users:
-                        active_users[recipient].send(f"From {username}: {msg}".encode())
                         logging.info(f"{recipient} received {msg} from {username}")
+                        active_users[recipient].send(f"From {username}: {msg}".encode())
                     else:
                         client_socket.send("server: Recipient not found.\n".encode())
             else:
