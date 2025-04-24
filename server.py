@@ -7,13 +7,20 @@ active_users = {}
 lock = threading.Lock()
 
 def handle_client(client_socket, address):
+    """
+    Most important function of the server
+    Input: 
+    client_socket = socket from client connection
+    address = address from client connection
+    """
     username = None
     try:
         while True:
             message = client_socket.recv(1024).decode()
             if not message:
                 break
-
+            
+            # register a new user with error checking and confirmation
             if message.startswith("server:register "):
                 requested_name = message.split(" ", 1)[1].strip()
                 with lock:
@@ -24,15 +31,18 @@ def handle_client(client_socket, address):
                         active_users[username] = client_socket
                         client_socket.send(f"server: Registered as {username}.\n".encode())
 
+            # check who is online 
             elif message == "server:who":
                 with lock:
                     user_list = "Online Users: " + ", ".join(active_users.keys()) + "\n"
                 client_socket.send(user_list.encode())
 
+            # user client gracefully exit from the chat
             elif message == "server:exit":
                 client_socket.send("server: Goodbye!\n".encode())
                 break
 
+            # main message parsing logic
             elif ":" in message:
                 recipient, msg = message.split(":", 1)
                 with lock:
@@ -53,11 +63,16 @@ def handle_client(client_socket, address):
         print(f"{address} disconnected.")
 
 def start_server(port):
+    """
+    Initialization of chat server functionality
+    """
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', port))
     server_socket.listen(5)
     print(f"Server listening on port {port}...")
 
+    # when client connects to server on chat port,
+    # server creates a thread and passes handle_client function
     try:
         while True:
             client_socket, address = server_socket.accept()

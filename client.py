@@ -3,6 +3,11 @@ import threading
 import argparse
 
 def listen_to_server(sock):
+    """
+    input: takes a socket
+    This function uses a while loop to receive data from the chat server, 
+    breaking when an exception is thrown.
+    """
     try:
         while True:
             data = sock.recv(1024).decode()
@@ -11,20 +16,28 @@ def listen_to_server(sock):
             print(data)
     except Exception as e:
         print("Disconnected from server.")
+        print(e)
     finally:
         sock.close()
 
 def start_client(host, port):
+    """
+    input: host and port, specified from the program initialization
+    """
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((host, port))
 
+    # create a thread on function "listen_to_server"
     listener = threading.Thread(target=listen_to_server, args=(client_socket,))
     listener.daemon = True
     listener.start()
 
+    # register user with server
     username = input("Enter a username: ")
     client_socket.send(f"server:register {username}".encode())
 
+    # main while loop of program 
+    # waiting for user input before sending to server
     while True:
         message = input("->")
         if message.strip().lower() == "server:exit":
