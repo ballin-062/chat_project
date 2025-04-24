@@ -72,11 +72,3 @@ Feel free to fork, use, and improve this tool for learning or development.
 
 📜 License
 This project is licensed under the MIT License.
----
-
-Let me know if you’d like to:
-- Add emoji or badge flair 🌟
-- Automatically log messages to a file 📄
-- Write a simple test script for this app 🧪
-
-Happy coding!
