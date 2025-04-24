@@ -49,13 +49,14 @@ You can showcase how the client looks in action here. Upload your screenshots to
 
 📁 File Structure
 
+```yaml
 chat-app/
 ├── client.py
 ├── server.py
 ├── README.md
 └── assets/
     └── client_example.png  # (Add your screenshots here)
-
+```
 📌 To-Do / Future Features
  Add support for usernames/nicknames/aliases
 
