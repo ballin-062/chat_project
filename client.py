@@ -1,6 +1,16 @@
 import socket
 import threading
 import argparse
+import logging
+
+# Set up logging feature
+logging.basicConfig(
+    filename='client_chat.log',
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+
 
 def listen_to_server(sock):
     """
@@ -14,6 +24,7 @@ def listen_to_server(sock):
             if not data:
                 break
             print(data)
+            logging.info(f"Received: {data}")
     except Exception as e:
         print("Disconnected from server.")
         print(e)
@@ -44,6 +55,7 @@ def start_client(host, port):
             client_socket.send(message.encode())
             break
         client_socket.send(message.encode())
+        logging.info(f"Sent: {message}")
 
     client_socket.close()
 

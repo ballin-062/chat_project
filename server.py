@@ -1,6 +1,15 @@
 import socket
 import threading
 import argparse
+import logging
+
+# Set up logging
+logging.basicConfig(
+    filename='server_chat.log',
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 # Store active users: {username: socket}
 active_users = {}
@@ -48,6 +57,7 @@ def handle_client(client_socket, address):
                 with lock:
                     if recipient in active_users:
                         active_users[recipient].send(f"From {username}: {msg}".encode())
+                        logging.info(f"{recipient} received {msg} from {username}")
                     else:
                         client_socket.send("server: Recipient not found.\n".encode())
             else:
